@@ -14,9 +14,9 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
     => await FindByCondition(e => e.RoleID.Equals(roleId), trackChanges).OrderBy(e => e.Name).ToListAsync();
     public async Task<User> GetUserAsync(Guid roleId, Guid id, bool trackChanges)
         => await FindByCondition(e => e.RoleID.Equals(roleId) && e.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
-    public void CreateUser(Role role, User user)
+    public void CreateUser(Guid roleId, User user)
     {
-        user.RoleID = role.Id;
+        user.RoleID = roleId;
         Create(user);
     }
     public void DeleteUser(User user) => Delete(user);

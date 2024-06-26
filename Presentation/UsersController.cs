@@ -6,8 +6,10 @@ using System.ComponentModel.Design;
 //using Microsoft.EntityFrameworkCore;
 //using Repository;
 using System.Runtime.InteropServices;
+using UMS.ActionFilters;
 using UMS.Service.Contracts;
 using UMS.Shared.DataTransferObjects;
+using UMS.Shared.RequestFeatures;
 
 namespace UMS.Presentation;
 
@@ -18,26 +20,23 @@ public class UsersController : ControllerBase
     private readonly IServiceManager _service;
     public UsersController(IServiceManager service) => _service = service;
     [HttpGet]
-    public IActionResult GetUsers(Guid roleId)
+    public async Task< IActionResult> GetUsers(Guid roleId, [FromQuery]UserParameters userParameters)
     {
-        var users = _service.UserService.GetUsersAsync(roleId,false);
+        var users = await _service.UserService.GetUsersAsync(roleId, false);
         return Ok(users);
     }
     [HttpGet("{id:guid}", Name ="GetUserById")]
-    public IActionResult GetUser(Guid roleId, Guid id)
+    public async Task<IActionResult> GetUser(Guid roleId, Guid id)
     {
-        var user = _service.UserService.GetUserAsync(roleId,id,false);
+        var user = await _service.UserService.GetUserAsync(roleId, id, false);
         return Ok(user);
     }
     [HttpPost]
-    public IActionResult CreateUser(Guid roleId, [FromBody] UserForPostDTO user)
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task< IActionResult> CreateUser(Guid roleId, [FromBody] UserForPostDTO user)
     {
-        if (user is null)
-            return BadRequest("UserForDTO object is null");
-        if (!ModelState.IsValid)
-            return UnprocessableEntity(ModelState);
         var userToReturn =
-        _service.UserService.CreateUserAsync(user, roleId, false);
+        await _service.UserService.CreateUserAsync(user, roleId, false);
         return CreatedAtRoute("GetUserById", new
         {
             roleId,
@@ -47,19 +46,16 @@ public class UsersController : ControllerBase
         userToReturn);
     }
     [HttpDelete("{id:guid}")]
-    public IActionResult DeleteUser(Guid roleId, Guid id)
+    public async Task< IActionResult> DeleteUser(Guid roleId, Guid id)
     {
-        _service.UserService.DeleteUserAsync(roleId, id,false);
+        await _service.UserService.DeleteUserAsync(roleId, id, false);
         return NoContent();
     }
     [HttpPut("{id:guid}")]
-    public IActionResult UpdateUser(Guid roleId, Guid id, [FromBody] UserForUpdateDTO user)
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> UpdateUser(Guid roleId, Guid id, [FromBody] UserForUpdateDTO user)
     {
-        if (user is null)
-            return BadRequest("UserForDTO object is null");
-        if (!ModelState.IsValid)
-            return UnprocessableEntity(ModelState);
-        _service.UserService.UpdateUserAsync(roleId, id, user, false, true);
+        await _service.UserService.UpdateUserAsync(roleId, id, user, false, true);
         return NoContent();
     }
 }

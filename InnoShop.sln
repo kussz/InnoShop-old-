@@ -13,17 +13,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "LoggerServ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserManagementService", "UserManagementService", "{9996641B-CDD0-467D-BF9D-A5F3586FD5EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{96D4FBBF-8A53-4DEE-97BF-CA53E875CA59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{96D4FBBF-8A53-4DEE-97BF-CA53E875CA59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{76E2837E-26C2-483A-816F-CE94959A0FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "Presentation\Presentation.csproj", "{76E2837E-26C2-483A-816F-CE94959A0FBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{87BAE655-32F5-4B7F-8257-C3C1D7E7A814}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{87BAE655-32F5-4B7F-8257-C3C1D7E7A814}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Contracts", "Service.Contracts\Service.Contracts.csproj", "{36B2E8E8-A0FA-41F8-A957-A55EBD6DB7DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Contracts", "Service.Contracts\Service.Contracts.csproj", "{36B2E8E8-A0FA-41F8-A957-A55EBD6DB7DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{651BAB7D-5FF0-4809-8EAA-3AD61A30569B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{651BAB7D-5FF0-4809-8EAA-3AD61A30569B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{EE31160D-19E7-4313-B200-9194FF233958}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{EE31160D-19E7-4313-B200-9194FF233958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionFilters", "ActionFilters\ActionFilters.csproj", "{39C40BF8-E5A4-4D6D-97A0-02C3C5258F1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{EE31160D-19E7-4313-B200-9194FF233958}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE31160D-19E7-4313-B200-9194FF233958}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE31160D-19E7-4313-B200-9194FF233958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39C40BF8-E5A4-4D6D-97A0-02C3C5258F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39C40BF8-E5A4-4D6D-97A0-02C3C5258F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39C40BF8-E5A4-4D6D-97A0-02C3C5258F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39C40BF8-E5A4-4D6D-97A0-02C3C5258F1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{36B2E8E8-A0FA-41F8-A957-A55EBD6DB7DA} = {9996641B-CDD0-467D-BF9D-A5F3586FD5EE}
 		{651BAB7D-5FF0-4809-8EAA-3AD61A30569B} = {9996641B-CDD0-467D-BF9D-A5F3586FD5EE}
 		{EE31160D-19E7-4313-B200-9194FF233958} = {9996641B-CDD0-467D-BF9D-A5F3586FD5EE}
+		{39C40BF8-E5A4-4D6D-97A0-02C3C5258F1F} = {9996641B-CDD0-467D-BF9D-A5F3586FD5EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2313CFB1-87B2-4F89-A70D-6B4DF3A39958}

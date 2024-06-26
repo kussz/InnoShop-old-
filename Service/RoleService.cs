@@ -27,9 +27,7 @@ internal sealed class RoleService : IRoleService
     }
     public async Task<RoleDTO> GetRoleAsync(Guid id, bool trackChanges)
     {
-        var role = await _repository.Role.GetRoleAsync(id, trackChanges);
-        if (role is null)
-            throw new RoleNotFoundException(id);
+        var role = await GetRoleAndCheckIfItExists(id, trackChanges);
 
         var roleDTO = _mapper.Map<RoleDTO>(role);
         return roleDTO;
@@ -44,20 +42,24 @@ internal sealed class RoleService : IRoleService
     }
     public async Task DeleteRoleAsync(Guid id,bool trackChanges)
     {
-        var role = await _repository.Role.GetRoleAsync(id, trackChanges);
-        if (role is null)
-            throw new RoleNotFoundException(id);
+        var role = await GetRoleAndCheckIfItExists(id, trackChanges);
         _repository.Role.DeleteRole(role);
         await _repository.SaveAsync();
     }
 
     public async Task UpdateRoleAsync(Guid id, RoleForUpdateDTO role, bool trackChanges)
     {
-        var roleEntity = await _repository.Role.GetRoleAsync(id, trackChanges);
-        if(roleEntity is null)
-            throw new RoleNotFoundException(id);
+        var roleEntity = await GetRoleAndCheckIfItExists(id, trackChanges);
         _mapper.Map(role, roleEntity);
         await _repository.SaveAsync();
     }
+    private async Task<Role> GetRoleAndCheckIfItExists(Guid id, bool trackChanges)
+    {
+        var company = await _repository.Role.GetRoleAsync(id, trackChanges);
+        if (company is null)
+            throw new RoleNotFoundException(id);
+        return company;
+    }
+
 
 }
