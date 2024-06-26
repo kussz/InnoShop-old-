@@ -5,6 +5,7 @@ using UMS.Service.Contracts;
 using UMS.Entities.Exceptions;
 using UMS.Shared.DataTransferObjects;
 using UMS.Entities.Models;
+using UMS.Shared.RequestFeatures;
 namespace UMS.Service;
 
 internal sealed class UserService : IUserService
@@ -18,12 +19,13 @@ internal sealed class UserService : IUserService
         _logger = logger;
         _mapper = mapper;
     }
-    public async Task<IEnumerable<UserDTO>> GetUsersAsync(Guid roleId, bool trackChanges)
+    public async Task<(IEnumerable<UserDTO> users, MetaData metaData)> GetUsersAsync(Guid roleId, UserParameters userParams, bool trackChanges)
     {
         await CheckIfRoleExists(roleId, trackChanges);
-        var users = await _repository.User.GetUsersAsync(roleId, trackChanges);
-        var usersDTO = _mapper.Map<IEnumerable<UserDTO>>(users);
-        return usersDTO;
+        var usersWithMetaData = await _repository.User.GetUsersAsync(roleId,userParams, trackChanges);
+
+        var usersDTO = _mapper.Map<IEnumerable<UserDTO>>(usersWithMetaData);
+        return (users: usersDTO, metaData: usersWithMetaData.MetaData);
     }
     public async Task< UserDTO> GetUserAsync(Guid roleId, Guid userId, bool trackChanges)
     {

@@ -10,7 +10,7 @@ namespace UMS.Contracts;
 
 public interface IUserRepository
 {
-    Task<IEnumerable<User>> GetUsersAsync(Guid roleId,UserParameters userParams, bool trackChanges);
+    Task<PagedList<User>> GetUsersAsync(Guid roleId,UserParameters userParams, bool trackChanges);
     Task<User> GetUserAsync(Guid roleId,Guid id, bool trackChanges);
     void CreateUser(Guid roleId, User user);
     void DeleteUser(User user);

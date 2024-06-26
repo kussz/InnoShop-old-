@@ -7,11 +7,12 @@ namespace UMS.Presentaion;
 
 [Route("api/roles")]
 [ApiController]
+//[ResponseCache(CacheProfileName = "120SecondsDuration")]
 public class RolesController : ControllerBase
 {
     private readonly IServiceManager _service;
     public RolesController(IServiceManager service) => _service = service;
-    [HttpGet]
+    [HttpGet(Name ="GetRoles")]
     public async Task<IActionResult> GetRoles()
     {
         var companies = await
@@ -19,13 +20,14 @@ public class RolesController : ControllerBase
         return Ok(companies);
     }
     [HttpGet("{id:guid}",Name ="RoleById")]
+
     public async Task<IActionResult> GetRole(Guid id)
     {
         var role = await _service.RoleService.GetRoleAsync(id, trackChanges: false);
 
         return Ok(role);
     }
-    [HttpPost]
+    [HttpPost(Name ="CreateRoles")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task< IActionResult> CreateRole([FromBody] RoleForPostDTO role)
     {
@@ -45,5 +47,12 @@ public class RolesController : ControllerBase
         await _service.RoleService.UpdateRoleAsync(id, role, true);
         return NoContent();
     }
+    [HttpOptions]
+    public IActionResult GetRolesOptions()
+    {
+        Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+        return Ok();
+    }
+
 
 }

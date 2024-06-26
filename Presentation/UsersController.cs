@@ -10,6 +10,7 @@ using UMS.ActionFilters;
 using UMS.Service.Contracts;
 using UMS.Shared.DataTransferObjects;
 using UMS.Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace UMS.Presentation;
 
@@ -20,10 +21,13 @@ public class UsersController : ControllerBase
     private readonly IServiceManager _service;
     public UsersController(IServiceManager service) => _service = service;
     [HttpGet]
+    [HttpHead]
     public async Task< IActionResult> GetUsers(Guid roleId, [FromQuery]UserParameters userParameters)
     {
-        var users = await _service.UserService.GetUsersAsync(roleId, false);
-        return Ok(users);
+        var pagedResult = await _service.UserService.GetUsersAsync(roleId,userParameters, trackChanges: false);
+        Response.Headers.Add("X-Pagination",
+        JsonSerializer.Serialize(pagedResult.metaData));
+        return Ok(pagedResult.users);
     }
     [HttpGet("{id:guid}", Name ="GetUserById")]
     public async Task<IActionResult> GetUser(Guid roleId, Guid id)
