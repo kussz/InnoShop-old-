@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
-using UMS.Repository;
+using Repository;
 
 namespace UMS.ContextFactory
 {

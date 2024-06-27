@@ -1,7 +1,6 @@
-﻿namespace UMS.Contracts;
+﻿namespace PMS.Contracts;
 public interface IRepositoryManager
 {
-    IRoleRepository Role { get; }
-    IUserRepository User { get; }
+    IProductRepository Product { get; }
     Task SaveAsync();
 }

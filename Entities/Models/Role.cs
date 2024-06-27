@@ -1,19 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace UMS.Entities.Models;
-
-public class Role
+namespace UMS.Entities.Models
 {
-    [Column("RoleID")]
-    [Key]
-    public Guid Id { get; set; }
-    [Column("RoleName")]
-    [Required(ErrorMessage ="Name is required for role")]
-    public string Name { get; set; }
-    [Column("ManipulationAccess")]
-    public bool ManipulationAccess { get; set; }
-    [Column("PostAccess")]
-    public bool PostAccess {  get; set; }
-
+    public class Role : IdentityRole<Guid>
+    {
+        // Добавьте любые дополнительные свойства, которые вам нужны
+    }
 }

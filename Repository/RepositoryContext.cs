@@ -2,10 +2,13 @@
 using UMS.Entities.Models;
 using Repository.Configuration;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using PMS.Entities.Models;
+using Microsoft.AspNetCore.Identity;
 
-namespace UMS.Repository;
+namespace Repository;
 
-public class RepositoryContext : DbContext
+public class RepositoryContext : IdentityDbContext<User,Role,Guid>
 {
     public RepositoryContext(DbContextOptions options)
     : base(options)
@@ -13,11 +16,15 @@ public class RepositoryContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new RoleConfiguration());
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Role>().HasData(
+        new Role { Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "ADMIN" },
+        new Role { Id = Guid.NewGuid(), Name = "Regular", NormalizedName = "REGULAR" },
+        new Role { Id = Guid.NewGuid(), Name = "Guest", NormalizedName = "GUEST" });
     }
 
     public DbSet<User>? Users { get; set; }
-    public DbSet<Role>? Roles { get; set; }
+    public DbSet<Product>? Products { get; set; }
 
 
 }

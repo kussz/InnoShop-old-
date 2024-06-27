@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace UMS.Repository;
+namespace Repository;
 
 public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {

@@ -1,21 +1,18 @@
-﻿using UMS.Contracts;
+﻿using PMS.Contracts;
 
-namespace UMS.Repository;
+namespace Repository;
 
 public sealed class RepositoryManager : IRepositoryManager
 {
     private readonly RepositoryContext _repositoryContext;
-    private readonly Lazy<IRoleRepository> _roleRepository;
-    private readonly Lazy<IUserRepository> _userRepository;
+    private readonly Lazy<IProductRepository> _productRepository;
     public RepositoryManager(RepositoryContext repositoryContext)
     {
         _repositoryContext = repositoryContext;
-        _roleRepository = new Lazy<IRoleRepository>(() => new
-        RoleRepository(repositoryContext));
-        _userRepository = new Lazy<IUserRepository>(() => new
-        UserRepository(repositoryContext));
+
+        _productRepository = new Lazy<IProductRepository>(() => new
+        ProductRepository(repositoryContext));
     }
-    public IRoleRepository Role => _roleRepository.Value;
-    public IUserRepository User => _userRepository.Value;
+    public IProductRepository Product => _productRepository.Value;
     public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
 }

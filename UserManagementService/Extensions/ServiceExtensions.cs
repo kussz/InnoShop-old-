@@ -1,10 +1,16 @@
 ﻿using UMS.Contracts;
 using Microsoft.EntityFrameworkCore;
-using UMS.Repository;
+using Repository;
 using UMS.Service;
 using UMS.LoggerService;
 using UMS.Service.Contracts;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Identity;
+using UMS.Entities.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using PMS.Contracts;
 
 namespace UMS.Extensions;
 
@@ -45,6 +51,46 @@ services.AddHttpCacheHeaders((expirationOpt) =>
     {
         validationOpt.MustRevalidate = true;
     });
+    public static void ConfigureIdentity(this IServiceCollection services)
+    {
+        var builder = services.AddIdentity<User, Role>(o =>
+        {
+            o.Password.RequireDigit = true;
+            o.Password.RequireLowercase = false;
+            o.Password.RequireUppercase = false;
+            o.Password.RequireNonAlphanumeric = false;
+            o.Password.RequiredLength = 8;
+            o.User.RequireUniqueEmail = true;
+        })
+        .AddEntityFrameworkStores<RepositoryContext>()
+        .AddDefaultTokenProviders();
+    }
+    public static void ConfigureJWT(this IServiceCollection services, IConfiguration
+configuration)
+    {
+        var jwtSettings = configuration.GetSection("JwtSettings");
+        services.AddAuthentication(opt =>
+        {
+            opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings["validIssuer"],
+                ValidAudience = jwtSettings["validAudience"],
+                IssuerSigningKey = new
+    SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["validKey"]!))
+            };
+        });
+    }
+
+
 
 
 }
